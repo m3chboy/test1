@@ -1,0 +1,43 @@
+EFS mount:
+==========
+
+apt-get -y update && apt-get -y upgrade && apt-get install nfs-common && mkdir efs
+
+sudo mount -t nfs4 -o nfsvers=4.1,rsize=1048576,wsize=1048576,hard,timeo=600,retrans=2,noresvport 172.31.92.6:/ efs
+
+
+nano /etc/fstab
+172.31.92.6:/ /root/efs nfs defaults,_netdev 0 0
+
+
+SSM:
+====
+https://aws.amazon.com/getting-started/hands-on/remotely-run-commands-ec2-instance-systems-manager/
+
+https://docs.aws.amazon.com/systems-manager/latest/userguide/walkthrough-cli.html
+
+aws ssm send-command --instance-ids "instance-ID" --document-name "AWS-RunShellScript" --comment "IP config" --parameters commands=ifconfig --output text
+
+aws ssm describe-instance-information  --output text --query "InstanceInformationList[*]"
+
+aws ssm describe-instance-information  --output text --query "InstanceInformationList[*]" | cut -f 4 | grep -v i-0fbe3d80f4fb7b905
+=========================
+
+mkdir /root/efs/slaves
+
+for i in $(cat slave.txt);do mkdir /root/efs/slaves/$i;done
+
+for ((i = 1 ; i <= $(cat file| wc -l) ; i++));do file=$(cat file|head -n $i | tail -n  +$i);instance=$(cat slave.txt|head -n $i | tail -n  +$i); cp /root/efs/mechboy/Recon/car/$file /root/efs/slaves/${instance}/input ;done
+=========================
+
+for instance in $(cat available-ec2.txt);do echo "aws ssm send-command --instance-ids $instance --document-name "AWS-RunShellScript" --comment "httpx" --parameters commands="$command",executionTimeout=172500 --output text";done
+
+HTTPX
+=========
+for instance in $(cat slave.txt);do aws ssm send-command --instance-ids $instance --document-name "AWS-RunShellScript" --comment "IP config" --parameters commands="/root/go/bin/httpx -l /root/efs/slaves/${instance}/input -o /root/efs/slaves/${instance}/output",executionTimeout=172500 --output text;done"AWS-RunShellScript" --comment "httpx" --parameters commands="/root/go/bin/httpx -l /root/efs/slaves/i-0420a21daa8bc03dc/input -o /root/efs/slaves/i-0420a21daa8bc03dc/chch",executionTimeout=120 --output text
+
+
+
+STATUS CHECKER
+===================
+if [ $(aws ssm list-commands --instance-id i-0fbe3d80f4fb7b905 --filters "key=Status,value=InProgress" | wc -l) -gt 9 ];then echo hello;fi

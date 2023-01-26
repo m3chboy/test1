@@ -1,0 +1,202 @@
+{% extends 'base.html' %} {% block body %}
+
+<body>
+    <!-- navbar -->
+    <div class="container">
+        <aside>
+            <div class="top">
+                <div class="logo">
+                    <img src="{{ url_for('static',filename='images/logo.png') }}" alt="logo">
+                    <h2>cloud<span class="danger">Mist</span></h2>
+                </div>
+                <div class="close" id="close-btn">
+                    <span class="material-icons-sharp">close</span>
+                </div>
+            </div>
+
+            <div class="sidebar">
+                <a href="/">
+                    <span class="material-icons-sharp">grid_view</span>
+                    <h3>Dashboard</h3>
+                </a>
+                <a href="/scanlist" class="active">
+                    <span class="material-icons-sharp">receipt_long</span>
+                    <h3>Scan List</h3>
+                </a>
+                <a href="/vuln">
+                    <span class="material-icons-sharp">bug_report</span>
+                    <h3>Vulnerability</h3>
+                </a>
+                <a href="/subs">
+                    <span class="material-icons-sharp">language</span>
+                    <h3>Subdomain</h3>
+                    <!-- <span class="message-count">26</span> -->
+                </a>
+                <!-- <a href="#">
+                    <span class="material-icons-sharp">inventory</span>
+                    <h3>Products</h3>
+                </a> -->
+                <a href="#">
+                    <span class="material-icons-sharp">report_gmailerrorred</span>
+                    <h3>Errors</h3>
+                </a>
+                <a href="#">
+                    <span class="material-icons-sharp">settings</span>
+                    <h3>Config</h3>
+                </a>
+
+                <a href="#">
+                    <span class="material-icons-sharp">logout</span>
+                    <h3>Logout</h3>
+                </a>
+            </div>
+        </aside>
+
+        <!-- end of navbar -->
+        <!-- main -->
+        <main>
+            <h1>{{foldertable}}</h1>
+
+            <div class="date">
+                <p id="date"></p>
+            </div>
+
+
+            <!-- end of insights -->
+            <div class="recent-orders">
+                <h2>Scan Details</h2>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Domains</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+
+                        {% for domain in domains.split() %} {% if domain[0] != None %}
+                        <tr>
+                            <td>{{domain}}</td>
+                        </tr>
+                        {% endif %} {% endfor %}
+                        <!--  -->
+                    </tbody>
+                </table>
+                <br><br>
+                <!-- ------------------ -->
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Subdomain</th>
+
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for domain in subdomain.split() %} {% if domain[1] != None %}
+                        <tr>
+                            <td>{{domain}}</td>
+                        </tr>
+                        {% endif %} {% endfor %}
+                        <!--  -->
+                    </tbody>
+                </table>
+                <br><br>
+                <!-- --------- -->
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Webserver</th>
+
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for domain in webserver.split() %} {% if domain[2] != None %}
+                        <tr>
+                            <td><a href="{{domain}}">{{domain}}</a></td>
+                        </tr>
+                        {% endif %} {% endfor %}
+                        <!--  -->
+                    </tbody>
+
+                </table>
+                <br><br>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Vulnerability</th>
+
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for domain in vuln.split() %} {% if domain[3] != None %}
+                        <tr>
+                            <td>{{domain}}</td>
+                        </tr>
+                        {% endif %} {% endfor %}
+                        <!--  -->
+                    </tbody>
+                </table>
+
+                <!-- <a href="#">Show All</a> -->
+            </div>
+        </main>
+        <!-- end of main -->
+
+        <div class="right">
+            <div class="top">
+                <button id="menu-btn">
+                <span class="material-icons-sharp">menu</span>
+            </button>
+                <div class="theme-toggler">
+                    <span class="material-icons-sharp active">light_mode</span>
+                    <span class="material-icons-sharp">dark_mode</span>
+                </div>
+                <div class="profile">
+                    <div class="info">
+                        <p>Hey, <b>mEngine</b></p>
+                        <small class="text-muted">Admin</small>
+                    </div>
+                    <!-- <div class="profile-photo">
+                        <img src="{{ url_for('static',filename='/images/profile-5.png') }}" alt="Profile">
+                    </div> -->
+                </div>
+            </div>
+            <!-- end of top  -->
+            <div class="recent-updates">
+                <h2>Recent Updates</h2>
+                <div class="updates">
+                    <div class="update">
+                        <div class="profile-photo">
+                            <img src="{{ url_for('static',filename='images/profile-2.jpg') }}" alt="aa">
+                        </div>
+                        <div class="message">
+                            <p><b>Muhe</b> scanned dhdh ydg yge.</p>
+                            <small class="text-muted">2 Minutes Ago</small>
+                        </div>
+                    </div>
+                    <div class="update">
+                        <div class="profile-photo">
+                            <img src="{{ url_for('static',filename='images/profile-3.jpg') }}" alt="aa">
+                        </div>
+                        <div class="message">
+                            <p><b>Muhe</b> scanned dhdh ydg yge.</p>
+                            <small class="text-muted">2 Minutes Ago</small>
+                        </div>
+                    </div>
+                    <div class="update">
+                        <div class="profile-photo">
+                            <img src="{{ url_for('static',filename='images/profile-4.jpg') }}" alt="aa">
+                        </div>
+                        <div class="message">
+                            <p><b>Muhe</b> scanned dhdh ydg yge.</p>
+                            <small class="text-muted">2 Minutes Ago</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- end of recent updates  -->
+
+        </div>
+    </div>
+    <script src="{{ url_for( 'static',filename='index.js' ) }} "></script>
+</body>
+{% endblock %}
